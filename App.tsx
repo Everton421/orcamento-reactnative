@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,TouchableOpacity,FlatList} from 'react-native';
 import { SelectProdutos } from './src/selectProdutos';
-import { useState } from 'react';
-import { ProdutosOrcamento } from './src/produtosOrcamento';
+import { useEffect, useState } from 'react';
+import { Item } from './src/components/itemDoOrcamento';
+import { Totais } from './src/components/totaisOrcamento';
 
 export default function App() {
   const [data, setData] = useState([])
+  const [valorTotalProdutos,setValorTotalProdutos] = useState(0)
  const produtos = [
   {"codigo": 1 ,"nome":"LAMPADA 67 12V 10W","preco":11,"quantidade":0,"total":0},
   {"codigo":2 ,"nome":"LAMPADA 67 12V 10W","preco":11,"quantidade":0,"total":0},
@@ -20,6 +22,8 @@ export default function App() {
   {"codigo":11 ,"nome":"LANTERNA TAPA-SOL 124 SERIE 4","preco":11,"quantidade":0,"total":0},
  ]  
 
+const teste = {"codigo":11 ,"nome":"LANTERNA LANTERNA TAPA-SOL 124 SERIE 4TAPA-SOL 124 SERIE 4LANTERNA TAPA-SOL 124 SERIE 4","preco":11,"quantidade":0,"total":0}
+
   function selectedProducts(items:any){
       setData(items);
  }  
@@ -28,9 +32,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <SelectProdutos options={produtos} onChange={selectedProducts}/>
+        
+        <FlatList
+        data={data}
+        renderItem={({item})=> <Item item={item}/>}
+        />
     
-    <ProdutosOrcamento data={data} />
-
+   
         <StatusBar style="auto" />
     </View>
   );

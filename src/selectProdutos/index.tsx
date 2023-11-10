@@ -135,7 +135,7 @@ export const SelectProdutos = ({ options = [], onChange, initialSelect = [] }) =
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        marginTop: 30,
         height: 50,
         marginHorizontal: 10,
         flexDirection: 'row',
