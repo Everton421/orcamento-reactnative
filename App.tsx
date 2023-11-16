@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,TouchableOpacity,FlatList} from 'react-native';
-import { SelectProdutos } from './src/selectProdutos';
+import { SelectProdutos } from './src/components/selectProdutos';
 import { useEffect, useState } from 'react';
 import { Item } from './src/components/itemDoOrcamento';
-import { Totais } from './src/components/totaisOrcamento';
 
 export default function App() {
   const [data, setData] = useState([])
   const [valorTotalProdutos,setValorTotalProdutos] = useState(0)
+  const [totalProdutos,setTotalProdutos] = useState(0)
+
  const produtos = [
   {"codigo": 1 ,"nome":"LAMPADA 67 12V 10W","preco":11,"quantidade":0,"total":0},
   {"codigo":2 ,"nome":"LAMPADA 67 12V 10W","preco":11,"quantidade":0,"total":0},
@@ -22,23 +23,84 @@ export default function App() {
   {"codigo":11 ,"nome":"LANTERNA TAPA-SOL 124 SERIE 4","preco":11,"quantidade":0,"total":0},
  ]  
 
-const teste = {"codigo":11 ,"nome":"LANTERNA LANTERNA TAPA-SOL 124 SERIE 4TAPA-SOL 124 SERIE 4LANTERNA TAPA-SOL 124 SERIE 4","preco":11,"quantidade":0,"total":0}
+
+useEffect(
+  ()=>{
+    function atualizar(){
+      let aux=0;
+      data.forEach((element)=>{
+        aux += element.total;
+      })
+      setTotalProdutos(aux);
+    }
+    atualizar()
+},[data,Item])
+
+  const Totais = ()=>{
+    return(
+      <View style={{backgroundColor:'#cff',padding:5,borderRadius:5}}>
+        <Text style={{fontSize:20}}>
+       total R$:{totalProdutos}  
+        </Text>
+      </View>
+    );
+  }
+  const Enviar = ()=>{
+    return(
+        <TouchableOpacity style={{backgroundColor:'green',padding:10,margin:10,borderRadius:5}} onPress={()=> console.log(totalProdutos)}>
+               <Text style={{color:'#FFF'}}>
+                  enviar
+               </Text>
+         </TouchableOpacity>
+    )
+  }
+
+  function handleQuantityChange(codigo, newQuantity) {
+    const updatedData = data.map((item) => {
+      if (item.codigo === codigo) {
+        return { ...item, quantidade: newQuantity, total: newQuantity * item.preco };
+      }
+      return item;
+    });
+    setData(updatedData);
+  }
+
+  function handlePriceChange(codigo, newPrice) {
+    const updatedData = data.map((item) => {
+      if (item.codigo === codigo) {
+        return { ...item, preco: newPrice, total: newPrice * item.quantidade };
+      }
+      return item;
+    });
+    setData(updatedData);
+  }
+
+const teste1 = {"codigo":11 ,"nome":"LANTERNA LANTERNA TAPA-SOL 124 SERIE 4TAPA-SOL 124 SERIE 4LANTERNA TAPA-SOL 124 SERIE 4","preco":11,"quantidade":0,"total":0}
 
   function selectedProducts(items:any){
       setData(items);
  }  
-
-
-  return (
+ 
+ return (
     <View style={styles.container}>
       <SelectProdutos options={produtos} onChange={selectedProducts}/>
         
         <FlatList
         data={data}
-        renderItem={({item})=> <Item item={item}/>}
+        renderItem={ ({item})=>(
+       
+           <Item item={item}
+          onPriceChange={handlePriceChange}
+          onQuantityChange={handleQuantityChange} 
+          />
+          )
+        }
         />
-    
-   
+
+      <View style={{flexDirection:'row' ,alignItems:'center',justifyContent:'space-between'}}>        
+           <Totais/>
+          <Enviar/>      
+       </View>
         <StatusBar style="auto" />
     </View>
   );

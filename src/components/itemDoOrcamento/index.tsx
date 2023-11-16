@@ -2,19 +2,21 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
 
 
-export const Item = ({ item }) => {
+export const Item = ({ item,onQuantityChange,onPriceChange}) => {
     const [localQuantidade, setLocalQuantidade] = useState(1);
     const [localPreco, setLocalPreco] = useState(item.preco);
     const [totalProdutos, setTotalProdutos] = useState(item.total);
 
     const handleQuantidadeChange = (text: number) => {
         setLocalQuantidade(text);
+        onQuantityChange(item.codigo, item.quantidade + 1);
     };
 
     const handlePrecoChange = (text: number) => {
         setLocalPreco(text);
         let valor = Number(item.preco) * Number(localQuantidade)
         setTotalProdutos(valor);
+        onPriceChange(item.codigo, item.preco + 1);
     };
 
     useEffect(
@@ -23,8 +25,10 @@ export const Item = ({ item }) => {
                  item.quantidade = localQuantidade;
             item.preco = localPreco;
             setTotalProdutos(total);
+            item.total = total;
         },[localPreco,localQuantidade]
     )    
+
 
     return (
 
@@ -63,18 +67,16 @@ export const Item = ({ item }) => {
                     <TextInput
                         style={{ borderRadius: 7, textAlign: 'center', backgroundColor: '#FFF' }}
                         placeholder=" quantidade  "
-                        value={localQuantidade.toString()}
+                        value={String(localQuantidade)}
                         onChangeText={handleQuantidadeChange}
                         keyboardType="numeric"
-                        defaultValue={item.quantidade}
                     />
                     <TextInput
                         style={{ borderRadius: 7, textAlign: 'center', backgroundColor: '#FFF' }}
                         placeholder="   preço   "
-                        value={localPreco.toString()}
+                        value={String(localPreco)}
                         onChangeText={handlePrecoChange}
                         keyboardType="numeric"
-                        defaultValue={item.preco}
                     />
                         <Text style={{ fontWeight: 'bold' }}> R$:{totalProdutos}</Text>
                         
@@ -101,7 +103,8 @@ const styles = StyleSheet.create({
     },
     container: {
         marginTop: 10,
-    }, logo: {
+    }, 
+    logo: {
         width: 66,
         height: 58,
     }
