@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
-import { Produto } from "../../interfaces/produto";
 
-export const Item = ( item:Produto) => {
+
+export const Item2 = ({ item,onQuantityChange,onPriceChange}) => {
     const [localQuantidade, setLocalQuantidade] = useState(1);
     const [localPreco, setLocalPreco] = useState(item.preco);
     const [totalProdutos, setTotalProdutos] = useState(item.total);
+
     const handleQuantidadeChange = (text: number) => {
         setLocalQuantidade(text);
-       // onQuantityChange(item.codigo, item.quantidade + 1);
+        onQuantityChange(item.codigo, item.quantidade + 1);
     };
+
+    const handlePrecoChange = (text: number) => {
+        setLocalPreco(text);
+        let valor = Number(item.preco) * Number(localQuantidade)
+        setTotalProdutos(valor);
+        onPriceChange(item.codigo, item.preco + 1);
+    };
+
     useEffect(
         ()=>{
                 const total = localPreco * localQuantidade
-                  item.QUANTIDADE = localQuantidade;
-                  item.PRECO = localPreco;
-                 setTotalProdutos(total);
-                  item.TOTALLIQUIDO = total;
-
+                 item.quantidade = localQuantidade;
+            item.preco = localPreco;
+            setTotalProdutos(total);
+            item.total = total;
         },[localPreco,localQuantidade]
     )    
 
@@ -29,7 +37,7 @@ export const Item = ( item:Produto) => {
 
                 <View style={styles.itemR}>
                     <Text >
-                        Codigo: <Text style={{ fontWeight: 'bold' }}> {item.CODIGO} </Text>
+                        Codigo: <Text style={{ fontWeight: 'bold' }}> {item.codigo} </Text>
                     </Text>
                  
                 </View>
@@ -41,7 +49,7 @@ export const Item = ( item:Produto) => {
                         uri: 'https://reactnative.dev/img/tiny_logo.png', }}
                 />
             <Text style={{ fontWeight: 'bold',maxWidth:250 ,fontSize:15}} numberOfLines={3} >
-                                    {item.DESCRICAO}
+                                    {item.descricao}
                                 </Text>
 
                 <TouchableOpacity style={{ backgroundColor: 'red', padding: 5, borderRadius: 2, width: 32}} >
@@ -51,7 +59,7 @@ export const Item = ( item:Produto) => {
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-evenly", margin: 3 }}>
                     <Text style={{ fontWeight: 'bold' }}  > quantidade:{localQuantidade} </Text>
-                    <Text style={{ fontWeight: 'bold' }} > preço:</Text>
+                    <Text style={{ fontWeight: 'bold' }} > R$:{localPreco}</Text>
                         <Text style={{ fontWeight: 'bold' }}> total:</Text>
                 </View>
 
@@ -63,9 +71,13 @@ export const Item = ( item:Produto) => {
                         onChangeText={handleQuantidadeChange}
                         keyboardType="numeric"
                     />
-                   <Text>
-                    {item.PRECO}
-                   </Text>
+                    <TextInput
+                        style={{ borderRadius: 7, textAlign: 'center', backgroundColor: '#FFF' }}
+                        placeholder="   preço   "
+                        value={String(localPreco)}
+                        onChangeText={handlePrecoChange}
+                        keyboardType="numeric"
+                    />
                         <Text style={{ fontWeight: 'bold' }}> R$:{totalProdutos}</Text>
                         
 
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 5,
         borderWidth: 1.5,
-        borderColor: '#009de2',
+        borderColor: '#1dc5ec',
         borderRadius: 7,
         backgroundColor: '#eeE'
     },
