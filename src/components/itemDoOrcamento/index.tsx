@@ -68,7 +68,6 @@ export const Item = ( item:Produto) => {
                    </Text>
                         <Text style={{ fontWeight: 'bold' }}> R$:{totalProdutos}</Text>
                         
-
                 </View>
             </View>
         </View>
