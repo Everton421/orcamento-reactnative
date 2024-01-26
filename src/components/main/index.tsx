@@ -23,14 +23,17 @@ export default function Main() {
 
  async function addOrcamento() {
   //await  api.post('teste',orcamento)
-  if(produtosOrcamento != undefined  || produtosOrcamento != null ){
 
-    const orca = new Orcamento(produtosOrcamento,'','',1)
-      
-      console.log(orca)
-      }else{
-        console.log("produtos vazio")
-      }
+    const orca = new Orcamento(cliente,produtosOrcamento,'','',1)
+              if (JSON.stringify(cliente) === '{}') {
+                  console.log('Cliente não informado');
+                }else{
+                 if(orca.produtos.length === 0 ){
+                   console.log('produtos nao informado')
+                }else{
+                  console.log(orca)
+                }
+              }
   }
 
 /* 

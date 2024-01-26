@@ -5,15 +5,19 @@ import { useClienteContext } from "../../contexts/clienteProvider";
 
 import { useProdutosContext } from '../../contexts/produtosOrcamento';
 
+import { clientesFic } from "../dados/clientes";
+import { Client } from "../../interfaces/cliente";
 
 export const Cliente = () => {
   const [aux, setAux] = useState('');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [clienteSelecionado, setClienteSelecionado] = useState();
-  const [dados, setDados] = useState([]);
+  const [dados, setDados] = useState<any>([]);
+
 const {cliente,atualizaCliente} = useClienteContext();
 
 
+/********************************************************* 
   useEffect(
     () => {
       async function busca() {
@@ -29,7 +33,9 @@ const {cliente,atualizaCliente} = useClienteContext();
       busca();
     }, []
   )
+/********************************************************* 
 
+*/
 
   function addCliente(value) {
     setClienteSelecionado(value);
@@ -41,8 +47,8 @@ const {cliente,atualizaCliente} = useClienteContext();
     return (
       <TouchableOpacity onPress={() => addCliente(value)}
         style={{ backgroundColor: '#DDDE', margin: 5, paddingHorizontal: 50, paddingVertical: 20, borderRadius: 5 }}>
-        <Text> <Text style={{ fontWeight: 'bold' }}> codigo:</Text> {value.codigo}</Text>
-        <Text> <Text style={{ fontWeight: 'bold' }}>nome: </Text> {value.nome}</Text>
+        <Text> <Text style={{ fontWeight: 'bold' }}> codigo:</Text> {value.CODIGO}</Text>
+        <Text> <Text style={{ fontWeight: 'bold' }}>nome: </Text> {value.NOME}</Text>
       </TouchableOpacity>
     );
   };
@@ -77,9 +83,9 @@ const {cliente,atualizaCliente} = useClienteContext();
 
         {aux != '' ? (
           <FlatList
-            data={data}
+            data={clientesFic}
             renderItem={({ item }) => <ItemCliente value={item} />}
-            keyExtractor={(item) => item.codigo.toString()}
+            keyExtractor={(item) => item.CODIGO.toString()}
           />
         ) : (
           null
@@ -92,12 +98,12 @@ const {cliente,atualizaCliente} = useClienteContext();
           <View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', margin: 5, backgroundColor: '#009de2', paddingVertical: 10, borderRadius: 5 }}>
-              <Text style={{ fontWeight: 'bold',color:'white' }}>codigo:  {clienteSelecionado.codigo} </Text>
-              <Text style={{ fontWeight: 'bold',color:'white' }} >cnpj: {clienteSelecionado.cpf} </Text>
-              <Text style={{ fontWeight: 'bold',color:'white' }} >RG: {clienteSelecionado.rg}</Text>
+              <Text style={{ fontWeight: 'bold',color:'white' }}>codigo:  {clienteSelecionado.CODIGO} </Text>
+              <Text style={{ fontWeight: 'bold',color:'white' }} >cnpj: {clienteSelecionado.CPF} </Text>
+              <Text style={{ fontWeight: 'bold',color:'white' }} >RG: {clienteSelecionado.RG}</Text>
             </View>
             <View style={{ backgroundColor: '#009de2', borderRadius: 5, margin: 5, paddingVertical: 10 }}>
-              <Text style={{ fontWeight: 'bold',color:'white' }} >nome: {clienteSelecionado.nome}</Text>
+              <Text style={{ fontWeight: 'bold',color:'white' }} >nome: {clienteSelecionado.NOME}</Text>
             </View>
           </View>
 

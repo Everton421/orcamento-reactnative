@@ -1,4 +1,4 @@
-export interface Cliente{
+export interface Client{
     CODIGO:number,
     NOME:string,
     CPF:string,

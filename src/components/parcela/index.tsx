@@ -23,7 +23,7 @@ const { cliente, atualizaCliente } = useClienteContext();
     )*/
 
     return(
-        <View>
+        <View style={{margin:25}}>
          
         <Button
         title="press"

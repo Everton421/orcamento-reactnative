@@ -1,3 +1,4 @@
+import { Cliente } from "./cliente"
 
 interface Produto {
   CODIGO:number
@@ -10,7 +11,7 @@ interface Produto {
 }
 
 export  class Orcamento{
-
+  cliente:Cliente
   produtos:Produto[]
   totalProdutos:number
   observacoes:string
@@ -21,12 +22,13 @@ export  class Orcamento{
   //parcelas?:parcelas
 
     constructor(
-      produtos:Produto[],
-       observacoes:string,
-        observacoes2:string, 
-          qtde_parcelas:number       
+      cliente:Cliente,
+       produtos:Produto[],
+        observacoes:string,
+         observacoes2:string, 
+           qtde_parcelas:number       
         ){
-       
+       this.cliente = cliente
         this.produtos = produtos
         this.observacoes=observacoes
         this.observacoes2 = observacoes2
@@ -39,7 +41,8 @@ export  class Orcamento{
         produtos.forEach( (p)=>{
           this.totalProdutos += p.TOTALLIQUIDO
         })
-        this.totalGeral =this.totalProdutos
+        this.totalGeral = this.totalProdutos
+
       }
 
         

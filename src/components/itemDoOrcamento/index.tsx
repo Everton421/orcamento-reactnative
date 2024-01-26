@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Image } 
 import { Produto } from "../../interfaces/produto";
 
 export const Item = ( {item}) => {
-    const [localQuantidade, setLocalQuantidade] = useState<number>();
-    const [localTotalLiquido,setLocalTotalLiquido] = useState<number>();
+    const [localQuantidade, setLocalQuantidade] = useState<number>(1);
+    const [localTotalLiquido,setLocalTotalLiquido] = useState<number>(0);
     const [localTotal, setLocalTotal] = useState(0);
 
     const handleQuantidadeChange = (text) => {
@@ -16,13 +16,14 @@ export const Item = ( {item}) => {
     useEffect(
         ()=>{
             function calcularTotalLiquido(item: Produto): void {
-                if (item.QUANTIDADE === null || item.QUANTIDADE===undefined ) {
-                        item.QUANTIDADE = localQuantidade;
-                        const totalLiquido =( item.QUANTIDADE * item.PRECO);
-                        setLocalTotalLiquido(totalLiquido)
-                        item.TOTALLIQUIDO = totalLiquido;
-                } 
-            }
+                item.QUANTIDADE = localQuantidade
+                    setLocalTotalLiquido( item.QUANTIDADE * item.PRECO)
+                    if(item.TOTALLIQUIDO ===0){
+                        item.TOTALLIQUIDO=localTotalLiquido
+                   }else{
+                    item.TOTALLIQUIDO= item.PRECO *item.QUANTIDADE
+                   }
+                }
           calcularTotalLiquido(item)
         },[localQuantidade,item]
     )    
@@ -36,6 +37,7 @@ export const Item = ( {item}) => {
                     <Text >
                         Codigo: <Text style={{ fontWeight: 'bold' }}> {item.CODIGO} </Text>
                     </Text>
+                    <Text style={{ fontWeight: 'bold' }} > preço: {item.PRECO.toFixed(2)} </Text>
                  
                 </View>
 
@@ -56,7 +58,6 @@ export const Item = ( {item}) => {
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-evenly", margin: 3 }}>
                     <Text style={{ fontWeight: 'bold' }}  > quantidade: {localQuantidade} </Text>
-                    <Text style={{ fontWeight: 'bold' }} > preço:</Text>
                         <Text style={{ fontWeight: 'bold' }}> total:</Text>
                 </View>
 
@@ -68,10 +69,7 @@ export const Item = ( {item}) => {
                         onChangeText={handleQuantidadeChange}
                         keyboardType="numeric"
                     />
-                   <Text>
-                    {item.PRECO.toFixed(2)}
-                   </Text>
-                        <Text style={{ fontWeight: 'bold' }}> R$:{localTotalLiquido}</Text>
+                        <Text style={{ fontWeight: 'bold' }}> R$:{localTotalLiquido.toFixed(2)}</Text>
                         
                 </View>
             </View>

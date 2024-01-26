@@ -27,12 +27,12 @@ export const Produtos = () => {
         <Text
           style={[styles.txt, { fontWeight: selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ? 'bold' : null }]}
         >codigo: {item.CODIGO} </Text>
-         <Text>  {item.DESCRICAO}</Text>
+         <Text style={styles.txt}>  {item.DESCRICAO}</Text>
 
         
          <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
           <View style={{backgroundColor:'#FFF',padding:5,borderRadius:8}}>
-          <Text >R$: {item.PRECO}</Text>
+          <Text >R$: {item.PRECO.toFixed(2)}</Text>
           </View>
           {selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ?
           <AntDesign name="checkcircle" size={24} color="black" />
