@@ -7,6 +7,4 @@
     DESCONTO?:number
     TOTALLIQUIDO?:number
     ESTOQUE?:number,
-
-
 }

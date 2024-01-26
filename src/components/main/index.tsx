@@ -23,13 +23,14 @@ export default function Main() {
 
  async function addOrcamento() {
   //await  api.post('teste',orcamento)
-  if(produtosOrcamento != undefined  ){
-    const orca = new Orcamento(produtosOrcamento,'','',1)
-    console.log(orca)
-  }else{
-    console.log("produtos vazio")
-  }
+  if(produtosOrcamento != undefined  || produtosOrcamento != null ){
 
+    const orca = new Orcamento(produtosOrcamento,'','',1)
+      
+      console.log(orca)
+      }else{
+        console.log("produtos vazio")
+      }
   }
 
 /* 
@@ -88,7 +89,10 @@ export default function Main() {
             <Item
               item={item}
             />
-          )} />
+            
+          )}
+          keyExtractor={(i)=> i.CODIGO}
+          />
 
       <StatusBar style="auto" />
     </SafeAreaView>

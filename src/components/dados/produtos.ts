@@ -24,4 +24,32 @@ const p4 :Produto= {
     PRECO:95,
 }
 
-export const produtosFic: Produto[] =  [p1,p2,p3,p4]
+
+const p5 :Produto= {
+    CODIGO:5,
+    DESCRICAO:"teste4",
+    PRECO:95,
+}
+const p6 :Produto= {
+    CODIGO:6,
+    DESCRICAO:"teste6",
+    PRECO:95,
+}
+const p7 :Produto= {
+    CODIGO:7,
+    DESCRICAO:"teste7",
+    PRECO:95,
+}
+const p8 :Produto= {
+    CODIGO:8,
+    DESCRICAO:"teste8",
+    PRECO:95,
+}
+const p9 :Produto= {
+    CODIGO:9,
+    DESCRICAO:"teste9",
+    PRECO:95,
+}
+
+
+export const produtosFic: Produto[] =  [p1,p2,p3,p4,p5,p6,p7,p8,p9]

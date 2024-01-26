@@ -5,7 +5,7 @@ interface Produto {
   PRECO:number
   QUANTIDADE:number
   DESCONTO:number
-  TOTALLIQUIDO?:number
+  TOTALLIQUIDO:number 
   ESTOQUE?:number,
 }
 
@@ -15,7 +15,7 @@ export  class Orcamento{
   totalProdutos:number
   observacoes:string
   observacoes2:string
-  descontos:number
+//  descontos:number
   totalGeral?:number
   qtde_parcelas:number
   //parcelas?:parcelas
@@ -30,15 +30,13 @@ export  class Orcamento{
         this.produtos = produtos
         this.observacoes=observacoes
         this.observacoes2 = observacoes2
-        this.descontos=0
+    //    this.descontos=0
         this.totalProdutos = 0
+        
         this.totalGeral =0;
           this.qtde_parcelas = qtde_parcelas
       
         produtos.forEach( (p)=>{
-          p.TOTALLIQUIDO=0;
-          this.descontos += p.DESCONTO
-          p.TOTALLIQUIDO += (p.PRECO * p.QUANTIDADE) - p.DESCONTO
           this.totalProdutos += p.TOTALLIQUIDO
         })
         this.totalGeral =this.totalProdutos
