@@ -8,9 +8,18 @@ const produtosDoOrcamento = createContext({});
         const atualizaProdutos=(v)=>{
             setProdutosOrcamento(v)
         }
-
+     
+        function getTotal(){
+            let aux=0;    
+                
+            produtosOrcamento.forEach( (p)=>{
+                     aux +=  p.TOTALLIQUIDO;
+                })
+                console.log(aux);
+              //  return aux;
+            }
         return(
-            <produtosDoOrcamento.Provider value={{produtosOrcamento,atualizaProdutos}} >
+            <produtosDoOrcamento.Provider value={{produtosOrcamento,atualizaProdutos,getTotal}} >
                 {children}
             </produtosDoOrcamento.Provider>
         )

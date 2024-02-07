@@ -4,63 +4,33 @@ import { useEffect, useState, useContext } from 'react';
 import { api } from '../../services/api';
 import { useProdutosContext } from '../../contexts/produtosOrcamento';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Item } from '../itemDoOrcamento';
+import { Item, ListaItemOrcamento } from '../itemDoOrcamento';
 import { useClienteContext } from '../../contexts/clienteProvider';
 import { Orcamento } from '../../interfaces/orcamento';
+import { useOrcamentoContext } from '../../contexts/orcamentoProvider';
 
 export default function Main() {
-  const [data, setData] = useState([])
-  const [valorTotalProdutos, setValorTotalProdutos] = useState(0)
-  const [totalProdutos, setTotalProdutos] = useState(0)
-  const [produtos, setProdutos] = useState([])
-  const [total, setTotal] = useState(0);
-  //const [orcamento, setOrcamento] = useState<Orcamento>();
-
-
-  const { produtosOrcamento, atualizaProdutos } = useProdutosContext();
-
+  const [total, setTotal] = useState<number>();
+  const {atualizaOrcamento} = useOrcamentoContext();
+  const { produtosOrcamento, atualizaProdutos, getTotal } = useProdutosContext();
   const { cliente, atualizaCliente } = useClienteContext();
 
- async function addOrcamento() {
-  //await  api.post('teste',orcamento)
-
-    const orca = new Orcamento(cliente,produtosOrcamento,'','',1)
-              if (JSON.stringify(cliente) === '{}') {
-                  console.log('Cliente não informado');
-                }else{
-                 if(orca.produtos.length === 0 ){
-                   console.log('produtos nao informado')
-                }else{
-                  console.log(orca)
-                }
-              }
+  async function addOrcamento() {
+    //await  api.post('teste',orcamento)
+    const orca = new Orcamento(cliente, produtosOrcamento, '', '', 1)
+    atualizaOrcamento(orca)
+        if (JSON.stringify(cliente) === '{}') {
+          console.log('Cliente não informado');
+        } else {
+          if (orca.produtos.length === 0) {
+            console.log('produtos nao informado')
+          } else {
+            console.log(orca)
+          }
+        }
+        setTotal(orca.totalProdutos)
   }
 
-/* 
-  useEffect(
-    () => {
-      function atualizar() {
-        let aux = 0;
-        produtosOrcamento.forEach((element: any) => {
-          aux += element.total;
-          
-        })
-        setTotalProdutos(aux);
-        //console.log(aux)
-        setOrcamento(
-          {
-            produtos: produtosOrcamento,
-            cliente: cliente,
-            descontos:2,
-            observacoes:'',
-            observacoes2:'',
-            totalProdutos:totalProdutos
-          }
-        )
-      }
-      atualizar()
-    }, [produtosOrcamento, Item, totalProdutos, cliente])
-*/
 
   const Enviar = () => {
     return (
@@ -74,29 +44,31 @@ export default function Main() {
     )
   }
 
-
-
   return (
-
+   
     <SafeAreaView style={styles.container}>
-      <View style={{ borderColor: '#ccc', borderWidth: 1 }}>
+   {/*   <View style={{ borderColor: '#ccc', borderWidth: 1 }}>
 
         <View style={{ margin: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Enviar />
         </View>
       </View>
+    */}
+      <ListaItemOrcamento item={produtosOrcamento} /> 
+      <Enviar />
 
-        <FlatList
-          data={produtosOrcamento}
-          renderItem={({ item }) => (
-            <Item
-              item={item}
-            />
-            
-          )}
-          keyExtractor={(i)=> i.CODIGO}
+    {/*  <FlatList
+        data={produtosOrcamento}
+        renderItem={({ item }) => (
+          <Item
+            item={item}
           />
 
+        )}
+        keyExtractor={(i) => i.CODIGO}
+      />
+
+      */} 
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -105,7 +77,7 @@ export default function Main() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor:'#dcdcdd',
     marginTop: 5
   },
 });

@@ -20,7 +20,7 @@ export const Produtos = () => {
   function renderItem(item: Produto) {
     return (
       <TouchableOpacity style={[styles.item, {
-        backgroundColor: selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ? '#009de2' : '#6c6c6c82'
+        backgroundColor: selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ? '#009de2' : '#FFF'
       }]}
         onPress={() => toggleSelection(item)}>
 
@@ -32,7 +32,7 @@ export const Produtos = () => {
         
          <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
           <View style={{backgroundColor:'#FFF',padding:5,borderRadius:8}}>
-          <Text >R$: {item.PRECO.toFixed(2)}</Text>
+          <Text style={{fontWeight:'bold'}}>R$: {item.PRECO.toFixed(2)}</Text>
           </View>
           {selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ?
           <AntDesign name="checkcircle" size={24} color="black" />
@@ -131,10 +131,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 25,
+    backgroundColor:'#dcdcdd'
   }
   ,
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#f9c2ff', //#dcdcdd
+
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -162,6 +164,6 @@ const styles = StyleSheet.create({
     marginEnd:1
   },
   txt:{
-    color:'#FFF'
+    fontWeight:'bold'
   }
 });
