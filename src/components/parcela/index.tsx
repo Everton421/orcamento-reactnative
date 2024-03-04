@@ -10,100 +10,6 @@ import { FlatList } from "react-native-gesture-handler";
 
 export const Parcelas = ()=>{
 
-        const ItemListaRecebimento =  ({item})=>{
-            const [ recebimentoSelecionado , setRecebimentoSelecionado ] = useState();
-            
-            function teste(){
-                    setRecebimentoSelecionado(item)
-                    setRecebimentoSelecionado(item)
-                    console.log(recebimentoSelecionado)
-
-            }
-            return(
-                <TouchableOpacity style={{width:280 ,height:50,backgroundColor:'blue', margin:10, borderRadius:10, alignItems:'center', justifyContent:'center'}}
-                    onPress={(v)=>teste() }
-                >
-                    <Text style={{color:'#FFF', fontWeight:'bold' }}>
-                        {item.NOME}
-                    </Text>
-                </TouchableOpacity>
-            )
-        }
-
-        const ListaRecebimento = ()=>{
-            return(
-                        <FlatList 
-                            data={tiposDeRecebimento}
-                            renderItem={ ({item})=> <ItemListaRecebimento  item={ item } />}
-                            keyExtractor={ item=> item.CODIGO}
-                        />
-            )
-        }
-
-
-                const ItemListaParcelas = ({parcela})=>{
-                    const [visibele, setVisible] = useState(false);
-
-                    return(
-                        <View style={{ flexDirection:'row' }} >
-                                <Text > sequencia: {parcela.sequencia}</Text>
-                                      <Text> valor parcela: {parcela.valorParcela.toFixed(2)}</Text>
-                                      
-
-                                      <TouchableOpacity 
-                                        style={{ backgroundColor:'red', borderRadius:10 ,alignItems:'center', width:'auto',margin:20}}
-                                        onPress={()=> setVisible(true)} >
-                                        <Text>PRESS</Text>
-                                    </TouchableOpacity>
-
-                                         <Modal
-                                             animationType="slide"
-                                             visible={visibele}
-                                                 >
-                                            <View style={styles.centeredView}>
-                                                <View style={styles.modalView}>
-                               
-                                                  <TouchableOpacity style={{borderRadius:30,backgroundColor:'red', width:35,height:35,  alignItems:'center' ,justifyContent:'center'}}
-                                                      onPress={()=> setVisible(false)}
-                                                     >
-                                                 <Text style={{fontWeight:'bold' , color:'#FFF'}}>
-                                                     X
-                                                  </Text>
-                                                  </TouchableOpacity>
-
-                                            {/** */}
-                                                  <ListaRecebimento />
-                                            {/** */}
-
-                                                </View>
-                                            </View>
-                                         </Modal>
-                        </View>
-                      )   
-                }
-
-                const ListaParcelas = ({ lista }) => {
-                    return (
-                        <View>
-                            <FlatList
-                                data={lista}
-                                renderItem={({ item }) => <ItemListaParcelas parcela={item} />} 
-                            />
-                        </View>
-                    );
-                };
-           
-                const handleRecebimentoSelect = (selectedValue) => {
-                    console.log(selectedValue); // Log the selected value to the console
-                };
-        interface Parcela{
-            sequencia:number
-            formaDePagmanto: string,
-            valorParcela: number
-        }
-
-       
-
     const { produtosOrcamento } = useProdutosContext();
     const { cliente, atualizaCliente } = useClienteContext();
     const {orcamento} = useOrcamentoContext();
@@ -111,13 +17,7 @@ export const Parcelas = ()=>{
     const [ qtdParcela, setQtdParcela ] = useState();    
     const [ parcelasGeradas, setParcelasGeradas ] = useState([]);
     const [valores , setValores] = useState();
-        
-
-    function atualizar (){
-       // atualizaOrcamento(p)
-        console.log(tiposDeRecebimento);
-
-    }
+      
 
      useEffect(
         ()=>{
@@ -151,44 +51,128 @@ export const Parcelas = ()=>{
         },[ qtdParcela]
     )
 
-    return(
+    interface Parcela{
+        sequencia:number
+        formaDePagmanto: string,
+        valorParcela: number
+    }
+
+                const ItemListaRecebimento =  ({item})=>{
+                    const [ recebimentoSelecionado , setRecebimentoSelecionado ] = useState();
+                    
+                    function teste(){
+                            setRecebimentoSelecionado(item);
+                            console.log(item);
+
+                    }
+                    return(
+                        <TouchableOpacity style={{width:280 ,height:50,backgroundColor:'blue', margin:10, borderRadius:10, alignItems:'center', justifyContent:'center'}}
+                            onPress={teste }
+                        >
+                            <Text style={{color:'#FFF', fontWeight:'bold' }}>
+                                {item.NOME}
+                            </Text>
+                        </TouchableOpacity>
+                    )
+                }
+
+                const ListaRecebimento = ()=>{
+                    return(
+                                <FlatList 
+                                    data={tiposDeRecebimento}
+                                    renderItem={ ({item})=> <ItemListaRecebimento  item={ item } />}
+                                    keyExtractor={ item => item.CODIGO}
+                                />
+                    )
+                }
+
+                const ItemListaParcelas = ({parcela})=>{
+                    const [visibele, setVisible] = useState(false);
+                    return(
+                        <View style={{ flexDirection:'row', margin:10}} >
+                                      
+                                    <View style={{ justifyContent:'space-between', borderColor: 'black',borderWidth:1 }}>
+                                          <Text > sequencia: {parcela.sequencia}</Text>
+
+                                         <Text> valor parcela: {parcela.valorParcela.toFixed(2)}</Text>
+
+                                      <TouchableOpacity 
+                                        style={{ backgroundColor:'red', borderRadius:10 ,alignItems:'center', width:'auto',margin:20}}
+                                        onPress={()=> setVisible(true)} >
+                                        <Text>recebimento</Text>
+                                    </TouchableOpacity>
+
+                                         <Modal
+                                             animationType="slide"
+                                             visible={visibele}
+                                                 >
+                                            <View style={styles.centeredView}>
+                                                <View style={styles.modalView}>
+                               
+                                                  <TouchableOpacity style={{borderRadius:30,backgroundColor:'red', width:35,height:35,  alignItems:'center' ,justifyContent:'center'}}
+                                                      onPress={()=> setVisible(false)}
+                                                     >
+                                                 <Text style={{fontWeight:'bold' , color:'#FFF'}}>
+                                                     X
+                                                  </Text>
+                                                  </TouchableOpacity>
+
+                                            {/** */}
+                                                  <ListaRecebimento  />
+                                            {/** */}
+
+                                                </View>
+                                            </View>
+                                         </Modal>
+                                    </View>
+
+                        </View>
+                      )   
+                }
+
+                const ListaParcelas = ({ lista }) => {
+                    return (
+                        <View>
+                            <FlatList
+                                data={lista}
+                                renderItem={({ item }) => <ItemListaParcelas parcela={item} />} 
+                            />
+                        </View>
+                    );
+                };
+           
+                const handleRecebimentoSelect = (selectedValue) => {
+                 console.log(selectedValue); // Log the selected value to the console
+                };
+
+    return (
+        <View style={{ marginTop: 30, backgroundColor: '#dcdcdd' }}>
+            <View style={{ height: 30, borderRadius: 10, alignItems: 'center' }} >
+                <Text style={{ fontWeight: 'bold', color: 'black' }}>
+                    total orcamento: R${orcamento.totalGeral.toFixed(2)}
+                </Text>
+            </View>
+            <TextInput
+                style={{
+                    backgroundColor: '#FFF', borderRadius: 4,
+                    paddingHorizontal: 110, margin: 15,
+                    height: 45, borderColor: 'black', borderWidth: 1
+                }}
+                placeholder="parcelas Ex. 2"
+                keyboardType="numeric"
+                onChangeText={(v) => setQtdParcela(v)}
+                value={qtdParcela}
+            />
 
 
-        <View style={{marginTop:30,backgroundColor: '#dcdcdd' }}>
-                <View style={ {height:30, borderRadius:10, alignItems:'center'} } >
-                    <Text style={{fontWeight:'bold' , color:'black'}}>
-                      total orcamento: R${orcamento.totalGeral}
-                    </Text>
-                </View>
-
-               <TextInput
-                   style={{
-                      backgroundColor: '#FFF', borderRadius: 4,
-                      paddingHorizontal: 110, margin: 15,
-                      height: 45,borderColor:'black',borderWidth:1
-                   }}
-                 placeholder="parcelas Ex. 2" 
-                 keyboardType="numeric"
-                 onChangeText={(v)=> setQtdParcela(v)}
-                 value={qtdParcela}
-               />
-                
-
-         <View>
-
-
-                   <ListaParcelas lista={parcelasGeradas}/>
-
-
-         <Button
-         title="press"
-         onPress={()=>  console.log(parcelasGeradas)
-         }
-         />
-
-      
-            
-         </View>
+            <View>
+                <ListaParcelas lista={parcelasGeradas} />
+                <Button
+                    title="press"
+                    onPress={() => console.log(parcelasGeradas)
+                    }
+                />
+            </View>
         </View>
 
     )

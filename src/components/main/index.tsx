@@ -11,7 +11,7 @@ import { useOrcamentoContext } from '../../contexts/orcamentoProvider';
 
 export default function Main() {
   const [total, setTotal] = useState<number>();
-  const {atualizaOrcamento} = useOrcamentoContext();
+  const {atualizaOrcamento, orcamento} = useOrcamentoContext();
   const { produtosOrcamento, atualizaProdutos, getTotal } = useProdutosContext();
   const { cliente, atualizaCliente } = useClienteContext();
 
@@ -24,18 +24,22 @@ export default function Main() {
         } else {
           if (orca.produtos.length === 0) {
             console.log('produtos nao informado')
-          } else {
-            console.log(orca)
           }
         }
         setTotal(orca.totalProdutos)
   }
 
+    useEffect(()=>{
+          addOrcamento();
+
+    },[produtosOrcamento])
+
 
   const Enviar = () => {
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity style={{ backgroundColor: 'green', padding: 10, margin: 7, borderRadius: 5 }} onPress={addOrcamento}>
+        <TouchableOpacity style={{ backgroundColor: 'green', padding: 10, margin: 7, borderRadius: 5 }} onPress={()=> console.log(orcamento)}>
+
           <Text style={{ color: '#FFF' }}>
             gravar
           </Text>
