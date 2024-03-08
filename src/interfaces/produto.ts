@@ -1,10 +1,10 @@
 
  export interface Produto {
-    CODIGO:number
-    DESCRICAO:string
-    PRECO:number
-    QUANTIDADE?:number
-    DESCONTO?:number
-    TOTALLIQUIDO?:number
-    ESTOQUE?:number,
+    codigo:number
+    descricao:string
+    preco:number
+    quantidade?:number
+    desconto?:number
+    totalLiquido?:number
+    estoque?:number,
 }

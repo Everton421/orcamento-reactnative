@@ -17,12 +17,12 @@ export const Cliente = () => {
 const {cliente,atualizaCliente} = useClienteContext();
 
 
-/********************************************************* 
+/********************************************************* */
   useEffect(
     () => {
       async function busca() {
         try {
-          const response = await api.get('clientes')
+          const response = await api.get(`cliente/${aux}`)
           setDados(response.data)
           //console.log(response.data)
         } catch (err) {
@@ -31,11 +31,19 @@ const {cliente,atualizaCliente} = useClienteContext();
       }
 
       busca();
-    }, []
+    }, [aux]
   )
-/********************************************************* 
+  useEffect(() => {
+    let a = dados.filter((item) => {
+      return (
+        item.nome?.toString().includes(aux) || item.codigo?.toString().includes(aux)
+      );
+    });
+    setData(a);
+  }, [aux]);
+/********************************************************* */
 
-*/
+
 
   function addCliente(value) {
     setClienteSelecionado(value);
@@ -53,29 +61,24 @@ const {cliente,atualizaCliente} = useClienteContext();
     );
   };
 
-  function teste(value) {
+  function atualizaBuscador(value) {
     setAux(value);
   }
-  useEffect(() => {
-    let a = dados.filter((item) => {
-      return (
-        item.nome?.toString().includes(aux) || item.codigo?.toString().includes(aux)
-      );
-    });
-    setData(a);
-  }, [aux]);
+
+
 
   return (
     <View>
+      
       <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
         <TextInput
           style={{
             backgroundColor: '#FFF', borderRadius: 4,
-            paddingHorizontal: 110, margin: 15,
+            paddingHorizontal: 70, marginTop: 5,
             height: 45,borderColor:'black',borderWidth:1
           }}
           value={aux}
-          onChangeText={(element) => teste(element)}
+          onChangeText={(element) => atualizaBuscador(element)}
           placeholder="pesquisar"
           placeholderTextColor={'#009de2'}
         
@@ -83,7 +86,7 @@ const {cliente,atualizaCliente} = useClienteContext();
 
         {aux != '' ? (
           <FlatList
-            data={clientesFic}
+            data={dados}
             renderItem={({ item }) => <ItemCliente value={item} />}
             keyExtractor={(item) => item.CODIGO.toString()}
           />

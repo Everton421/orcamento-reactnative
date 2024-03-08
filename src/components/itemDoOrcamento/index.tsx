@@ -3,26 +3,21 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput, Image } 
 import { Produto } from "../../interfaces/produto";
 
 export const ListaItemOrcamento = ({ item }) => {
-
-    const [totalGeral, setTotalGeral] = useState<number>();
-
-
-
+    const [totalGeral, setTotalGeral] = useState<number | undefined >();
     const handleTotalLiquidoChange = (updatedItem) => {
         // Atualiza o valor total geral quando um item é atualizado
         let novoTotalGeral = 0;
         item.forEach((i) => {
-
             novoTotalGeral += i.TOTALLIQUIDO
-
         })
         setTotalGeral(novoTotalGeral);
     };
+
     return (
         <View>
              <View style={{ borderColor: '#ccc', borderWidth: 1  ,backgroundColor:'#FFF', borderRadius:5}}>
                 <View style={{ margin: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                   <Text style={{fontWeight:'bold'}}>total: R${totalGeral?.toFixed(2)}</Text> 
+                   <Text style={{fontWeight:'bold'}}>total: R${totalGeral}</Text> 
                 </View>
             </View>
             <FlatList
@@ -53,11 +48,11 @@ const calculaDesconto = (value)=>{
     }
 
     useEffect(() => {
-        function calcularTotalLiquido(item: Produto): void {
+        function calcularTotalLiquido(item): void {
             item.QUANTIDADE = localQuantidade;
             item.DESCONTO = localDesconto;
 
-            const total = (item.PRECO - localDesconto) * localQuantidade;
+            const total = (item.preco - localDesconto) * localQuantidade;
 
             setLocalTotalLiquido(total);
             
@@ -72,9 +67,9 @@ const calculaDesconto = (value)=>{
             <View style={styles.item}>
                 <View style={styles.itemR}>
                     <Text >
-                        Codigo: <Text style={{ fontWeight: 'bold' }}> {item.CODIGO} </Text>
+                        Codigo: <Text style={{ fontWeight: 'bold' }}> {item.codigo} </Text>
                     </Text>
-                    <Text style={{ fontWeight: 'bold' }} > preço: {item.PRECO.toFixed(2)} </Text>
+                    <Text style={{ fontWeight: 'bold' }} > preço: {item.preco?.toFixed(2)} </Text>
                 </View>
                 <View style={{ alignItems: "center", justifyContent: "space-between", flexDirection: "row", margin: 5 }}>
                     <Image
@@ -94,7 +89,7 @@ const calculaDesconto = (value)=>{
 
                 <View style={{ flexDirection: 'row', justifyContent: "space-evenly", margin: 3 }}>
                     <Text style={{ fontWeight: 'bold' }}  > quantidade: {localQuantidade} </Text>
-                    <Text style={{ fontWeight: 'bold' }}  > desconto:  {localDesconto.toFixed(2)}</Text>
+                    <Text style={{ fontWeight: 'bold' }}  > desconto:  {localDesconto}</Text>
 
                     <Text style={{ fontWeight: 'bold' }}> total:</Text>
                 </View>
@@ -114,7 +109,7 @@ const calculaDesconto = (value)=>{
                         defaultValue="0"
                         keyboardType="numeric"
                     />
-                    <Text style={{ fontWeight: 'bold' }}> R$:{localTotalLiquido.toFixed(2)}</Text>
+                    <Text style={{ fontWeight: 'bold' }}> R$:{localTotalLiquido?.toFixed(2)}</Text>
 
                 </View>
             </View>

@@ -89,18 +89,21 @@ export const Parcelas = ()=>{
                 const ItemListaParcelas = ({parcela})=>{
                     const [visibele, setVisible] = useState(false);
                     return(
-                        <View style={{ flexDirection:'row', margin:10}} >
+                        <View style={{  margin:10, borderColor: 'black',borderWidth:2, borderRadius:5, backgroundColor:'#FFF', padding:7}} >
                                       
-                                    <View style={{ justifyContent:'space-between', borderColor: 'black',borderWidth:1 }}>
+                                    <View style={{  flexDirection:'row',justifyContent:'space-between' }}>
                                           <Text > sequencia: {parcela.sequencia}</Text>
 
                                          <Text> valor parcela: {parcela.valorParcela.toFixed(2)}</Text>
 
-                                      <TouchableOpacity 
-                                        style={{ backgroundColor:'red', borderRadius:10 ,alignItems:'center', width:'auto',margin:20}}
-                                        onPress={()=> setVisible(true)} >
-                                        <Text>recebimento</Text>
-                                    </TouchableOpacity>
+                                    </View>
+
+                                    <TouchableOpacity 
+                                               style={{ backgroundColor:'red', borderRadius:10 ,alignItems:'center', width:90,margin:20}}
+                                               onPress={()=> setVisible(true)} >
+                                               <Text>recebimento</Text>
+                                           </TouchableOpacity>
+
 
                                          <Modal
                                              animationType="slide"
@@ -124,7 +127,6 @@ export const Parcelas = ()=>{
                                                 </View>
                                             </View>
                                          </Modal>
-                                    </View>
 
                         </View>
                       )   

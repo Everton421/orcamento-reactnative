@@ -2,14 +2,14 @@ import { Cliente } from "./cliente"
 import { parcelas } from "./parcelas"
 
 interface Produto {
-  CODIGO:number
-  DESCRICAO:string
-  PRECO:number
-  QUANTIDADE:number
-  DESCONTO:number
-  TOTALLIQUIDO:number 
-  TOTALBRUTO:number 
-  ESTOQUE?:number,
+  codigo:number
+  descricao:string
+  preco:number
+  quantidade:number
+  desconto:number
+  totalLiquido:number 
+  totalBruto:number 
+  estoque?:number,
 }
 
 export  class Orcamento{
@@ -44,11 +44,11 @@ export  class Orcamento{
           
         this.qtde_parcelas = qtde_parcelas
         let aux=0;
-            produtos.forEach( (p)=>{
-              aux += p.PRECO * p.QUANTIDADE;
-              this.totalProdutos +=aux
-              this.descontos += p.DESCONTO
-            })
+          //  produtos.forEach( (p)=>{
+          //    aux += p.preco * p.quantidade;
+          //    this.totalProdutos +=aux
+          //    this.descontos += p.desconto
+          //  })
         this.totalSemDesconto = aux;
         this.totalGeral = this.totalProdutos
       } 

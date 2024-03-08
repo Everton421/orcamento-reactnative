@@ -10,7 +10,7 @@ import { Produto } from '../../interfaces/produto';
 
 export const Produtos = () => {
   const [data, setData] = useState<Produto[]>([]);
-  const [pesquisa, setPesquisa] = useState([]);
+  const [pesquisa, setPesquisa] = useState();
   const [selectedItem, setSelectedItem] = useState([])
    const [visible,setVisible] = useState(false)
  const {produtosDoOrcamento,atualizaProdutos} = useProdutosContext();
@@ -20,21 +20,21 @@ export const Produtos = () => {
   function renderItem(item: Produto) {
     return (
       <TouchableOpacity style={[styles.item, {
-        backgroundColor: selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ? '#009de2' : '#FFF'
+        backgroundColor: selectedItem?.findIndex(i => i.codigo === item.codigo) != -1 ? '#009de2' : '#FFF'
       }]}
         onPress={() => toggleSelection(item)}>
 
         <Text
-          style={[styles.txt, { fontWeight: selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ? 'bold' : null }]}
-        >codigo: {item.CODIGO} </Text>
-         <Text style={styles.txt}>  {item.DESCRICAO}</Text>
+          style={[styles.txt, { fontWeight: selectedItem?.findIndex(i => i.codigo === item.codigo) != -1 ? 'bold' : null }]}
+        >codigo: {item.codigo} </Text>
+         <Text style={styles.txt}>  {item.descricao}</Text>
 
         
          <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
           <View style={{backgroundColor:'#FFF',padding:5,borderRadius:8}}>
-          <Text style={{fontWeight:'bold'}}>R$: {item.PRECO.toFixed(2)}</Text>
+          <Text style={{fontWeight:'bold'}}>R$: {item.preco}</Text>
           </View>
-          {selectedItem?.findIndex(i => i.CODIGO === item.CODIGO) != -1 ?
+          {selectedItem?.findIndex(i => i.codigo === item.codigo) != -1 ?
           <AntDesign name="checkcircle" size={24} color="black" />
           : null}
 
@@ -45,7 +45,7 @@ export const Produtos = () => {
   }
 
   function toggleSelection(item: any) {
-    let index = selectedItem.findIndex(i => i?.CODIGO === item?.CODIGO);
+    let index = selectedItem.findIndex(i => i?.codigo === item?.codigo);
     let arrSelect = [...selectedItem];
     if (index != -1) {
       arrSelect.splice(index, 1);
@@ -55,27 +55,27 @@ export const Produtos = () => {
     setSelectedItem(arrSelect);
     atualizaProdutos(arrSelect)
   }
-  useEffect(() => {
-      const arrProd = produtosFic;
-        setData(arrProd);
 
-  }, [pesquisa]);
 
 /******************************************************************/
-/*  
+ 
 useEffect(() => {
     async function busca() {
       try {
-        const response = await api.get(`produtos/${pesquisa}`);
+        const response = await api.get(`produto/${pesquisa}`);
         setData(response.data); 
-       // console.log(response);
+      //  console.log(response.data);
       } catch (err) {
         console.log(err);
       }
     }
     busca();
+
+    if(pesquisa === null || pesquisa === ''){
+        setPesquisa(undefined);
+    }
   }, [pesquisa]);
-*/
+
   /******************************************************************/
 
 
@@ -87,7 +87,10 @@ useEffect(() => {
   function limpar(){
     atualizaProdutos([]);
     setSelectedItem([]);
+    setPesquisa(undefined);
   }
+
+
 
   return (
       <View style={styles.container}>
@@ -110,10 +113,10 @@ useEffect(() => {
                     </TouchableOpacity>
                     
               </View>
-                    <FlatList
+                 <FlatList
                       data={data}
                       renderItem={({ item }) => renderItem(item)}
-                      keyExtractor={(item) => item.CODIGO}
+                      keyExtractor={(item) => item.codigo}
                     />
                   {/**
                     <Button
@@ -146,13 +149,9 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   input: {
-    backgroundColor: '#FFF',
-    borderRadius: 4,
-    height: 35,
-    width:210,
-    textAlign:'justify',
-    borderColor:'black',
-    borderWidth:1
+    backgroundColor: '#FFF', borderRadius: 4,
+    paddingHorizontal: 70, marginTop:3,
+    borderColor:'black',borderWidth:1
   },
   limpar:{
     borderRadius:5,
