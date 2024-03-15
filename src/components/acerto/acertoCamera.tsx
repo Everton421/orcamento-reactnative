@@ -2,15 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert, Modal, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { api } from '../../services/api';
-import { TextInput } from 'react-native-gesture-handler';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
 
-export default function Acerto() {
+export default function AcertoCamera() {
+
+  const ItemLista = (item:any)=>{
+    return(
+      <TouchableOpacity style={{backgroundColor:'red'}}>
+        <Text style={{color:'red'}}>
+          {item}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [value, setValue] = useState();
-  const [prod, setProd] = useState([]);
+  const [prod, setProd] = useState<any>([]);
   const [saldo, setSaldo] = useState(0);
-  const [preco, setPreco] = useState(0);
+  const [preco, setPreco] = useState([]);
+  const [ setor, setSetor ] = useState <any> ([]);
+  const [dataRequest, setDataRequest ] = useState<any>([]);
   const [loading , setLoading ] = useState(false);
 
   useEffect(() => {
@@ -24,9 +37,12 @@ export default function Acerto() {
     async function busca() {
       setLoading(true)
       try {
-        const valor = await api.get(`/acerto/${value}`);
-        setProd(valor.data[0]);
-        console.log(valor.data[0])
+        const valor = await api.get(`/produto/${value}`);
+        setDataRequest(valor.data);
+        setProd(valor.data.produtos[0]);
+        setSetor(valor.data.setores[0]);
+        setPreco(valor.data.tabelaDePreco[0]);
+        console.log(valor.data)
       } catch (err) {
         console.log('erro ao buscar o produto', err);
       }finally{
@@ -39,7 +55,7 @@ export default function Acerto() {
     }
   }, [scanned, value]);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ type, data }:any) => {
     setScanned(true);
     setValue(data);
    // Alert.alert(
@@ -58,18 +74,16 @@ export default function Acerto() {
 
   function addSaldo(v:any){
     let value:number = parseInt(v)
-    setSaldo(value)
-    let obj = {...prod, novoSaldo: value}
-      setProd( obj )
+     dataRequest.setores[0].estoque = value
   } 
 
-  function addPreco(v){
-    const value = parseInt(v);
-    setPreco(value)
-    let obj = {...prod, novoPreco: preco}
-    setProd(obj);
-  }
-
+//  function addPreco(v){
+//    const value = parseInt(v);
+//    setPreco(value)
+//    let obj = {...prod, novoPreco: preco}
+//    setProd(obj);
+//  }
+//
   async function postProduto(){
     try{
 //    await api.post('/acerto/',prod);
@@ -119,7 +133,7 @@ export default function Acerto() {
 
                   <View style={{marginTop:15, flexDirection:'row',justifyContent:'space-between'}}>
                   <Text> Novo saldo: { saldo }</Text>
-                  <Text>Saldo sistema: { prod.estoque}</Text>
+                  <Text>Saldo sistema: { setor.estoque}</Text>
                   </View>
 
                     <TextInput
@@ -128,6 +142,9 @@ export default function Acerto() {
                     placeholder='Saldo'
                     style={{ borderWidth:1,borderColor:'black',borderRadius:5, textAlign:'center', marginBottom:50}}
                     />
+
+                  
+
             {/*      
                   <View style={{marginTop:15, flexDirection:'row',justifyContent:'space-between'}}>
                   <Text> Novo preço: { preco }</Text>
@@ -142,7 +159,7 @@ export default function Acerto() {
 
                       />
       */}
-                  <Button title='GRAVAR' onPress={()=>{postProduto()}}   />
+                  <Button title='GRAVAR' onPress={()=>{console.log(dataRequest)}}   />
                 {/**   <Button title='press' onPress={()=>{console.log(prod)}}   /> */}
                   
                   
