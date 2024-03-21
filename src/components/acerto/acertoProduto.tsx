@@ -36,8 +36,13 @@ export const acertoProduto = () => {
     async function postSaldo() {
         try {
             const res = await api.post(`/acerto/`, selectedSetor);
-            Alert.alert(`produto ${selectedSetor.produto} atualizado com successo `)
-            console.log(res.data)
+
+            if(res !== undefined){
+                 Alert.alert(`produto ${selectedSetor.produto} atualizado com successo `)
+                console.log(res.data)
+                closeModal();
+                setNovoSaldo(0);
+                }
 
         } catch (err) {
             console.log(err);
@@ -60,14 +65,12 @@ export const acertoProduto = () => {
 
                 <Text
 
-                >codigo: {item.codigo} </Text>
+                >CODIGO: {item.codigo} </Text>
                 <Text style={styles.txt}>  {item.descricao}</Text>
 
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <View style={{ backgroundColor: '#FFF', padding: 5, borderRadius: 8 }}>
-                        <Text style={{ fontWeight: 'bold' }}>saldo: {item.estoque}</Text>
-                    </View>
+                    
 
                     <Modal
                         visible={visible}
@@ -79,7 +82,7 @@ export const acertoProduto = () => {
                                 voltar
                             </Button>
 
-                            <View style={{ backgroundColor: '#CCF', borderRadius: 5, width: 'auto', margin: 3, padding: 15, marginTop: 5 }}>
+                            <View style={{ backgroundColor: '#74d5e4', borderRadius: 5, width: 'auto', margin: 3, padding: 15, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold' }}>
                                     CODIGO: {selectedItem?.codigo}
                                 </Text>
@@ -116,25 +119,36 @@ export const acertoProduto = () => {
                                 </View>
 
                                 :
-                                <View >
+                                <View style={{borderWidth:1, borderColor:'black', marginTop:5, margin:5, borderRadius:6}}>
                                     <View style={{ alignItems: 'center' }} >
                                         <Text>selecione um setor</Text>
                                     </View>
                                     <View >
-                                        <FlatList
+                                        { setor === undefined ?
+                                        <Text>carregando setores...</Text>
+                                            :
+                                            <FlatList
                                             data={setor}
                                             renderItem={({ item }) => changeSetor(item)}
                                         />
+                                        }
+                                        
+
+
                                     </View>
                                 </View>
                             }
 
 
 
-                                <View style={{marginTop:50}}>
-                                    <Button size="sm" variant="white"  onPress={() => postSaldo()} style={{backgroundColor:'green'}} >
-                                        gravar 
-                                    </Button>
+                                <View style={{marginTop:50, alignItems:'center'}}>
+                                    
+                                    <TouchableOpacity style={{ backgroundColor:'#66b75e', borderRadius:5 ,width:250,height:40,  alignItems:'center'}}  onPress={() => postSaldo()} >
+                                    <Text style={{color:'white'}}>
+                                        gravar
+                                    </Text>
+
+                                    </TouchableOpacity>
                                 </View>
 
                         </View>
@@ -146,11 +160,18 @@ export const acertoProduto = () => {
     }
     function changeSetor(item) {
         return (
-            <TouchableOpacity onPress={() => setSelectedSetor(item)} style={{ backgroundColor: '#CFF', margin: 2, padding: 5, borderRadius: 5 }}>
+            <View style={{flexDirection:'row',justifyContent:'center'}}>
+            <TouchableOpacity onPress={() => setSelectedSetor(item)} style={{ backgroundColor: '#cf4943', margin: 10, padding: 7, borderRadius: 5, flexDirection:'row',justifyContent:'space-between', width:'70%' }}>
                 <Text style={{ fontWeight: 'bold' }}>
-                    {item.nome}
+                    CODIGO: {item.codigoSetor}
+                  
                 </Text>
+                <Text style={{ fontWeight: 'bold' }}>
+                   SETOR: {item.nome}
+                </Text>
+                
             </TouchableOpacity>
+            </View>
         )
     }
 
@@ -203,13 +224,7 @@ export const acertoProduto = () => {
                 renderItem={({ item }) => renderItem(item)}
             />
 
-            <Button
-                //onPress={()=> postSaldo(produtos)}
-                onPress={() => console.log(setor)}
-            >
-                press
-                
-                </Button>
+           
         </SafeAreaView>
     )
 }
@@ -219,8 +234,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     item: {
-        backgroundColor: '#f9c2ff', //#dcdcdd
-
+        backgroundColor: '#74d5e4', //#dcdcdd
+        marginTop:25,
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,

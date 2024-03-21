@@ -39,9 +39,9 @@ export default function AcertoCamera() {
       try {
         const valor = await api.get(`/produto/${value}`);
         setDataRequest(valor.data);
+        setPreco(valor.data.tabelaDePreco[0]);
         setProd(valor.data.produtos[0]);
         setSetor(valor.data.setores[0]);
-        setPreco(valor.data.tabelaDePreco[0]);
         console.log(valor.data)
       } catch (err) {
         console.log('erro ao buscar o produto', err);
@@ -50,11 +50,14 @@ export default function AcertoCamera() {
       }
     }
 
+
     if (scanned && value) {
       busca();
     }
   }, [scanned, value]);
 
+
+  
   const handleBarCodeScanned = ({ type, data }:any) => {
     setScanned(true);
     setValue(data);
